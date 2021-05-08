@@ -1,5 +1,3 @@
-import javax.sound.midi.Soundbank;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class Bibliotecario extends Persona {
@@ -13,14 +11,14 @@ public class Bibliotecario extends Persona {
 
     }
 
-    public Bibliotecario(String nombre, String apellido1, String apellido2, int edad, String puestoTrabajo, String nif, String contraseña) {
+    public Bibliotecario(String nombre, String apellido1, String apellido2, int edad, String puestoTrabajo, String nif, String contraseña) throws Excepciones {
         super(nombre, apellido1, apellido2, edad);
         this.setPuestoTrabajo(puestoTrabajo);
         this.setNif(nif);
         this.setContraseña(contraseña);
     }
 
-    public Bibliotecario(Bibliotecario bibliotecario) {
+    public Bibliotecario(Bibliotecario bibliotecario) throws Excepciones {
         super((Persona) bibliotecario);
         this.setPuestoTrabajo(bibliotecario.getPuestoTrabajo());
         this.setNif(bibliotecario.getNif());
@@ -40,7 +38,11 @@ public class Bibliotecario extends Persona {
         return nif;
     }
 
-    public void setNif(String nif) {
+    public void setNif(String nif) throws Excepciones {
+
+        if(nif.length() != 9){
+            throw new Excepciones(1);
+        }
         this.nif = nif;
     }
 
@@ -67,8 +69,16 @@ public class Bibliotecario extends Persona {
         super.solicitarDatosPersona();
         System.out.print("Puesto de trabajo: ");
         this.setPuestoTrabajo(scanner.nextLine());
-        System.out.print("NIF: ");
-        this.setNif(scanner.nextLine());
+        boolean bool = false;
+        do {
+            try {
+                System.out.print("NIF: ");
+                this.setNif(scanner.nextLine());
+                bool = true;
+            } catch (Excepciones e) {
+                System.out.println(e.getMessage());
+            }
+        }while (bool == false);
         System.out.print("Constraseña: ");
         this.setContraseña(scanner.nextLine());
     }

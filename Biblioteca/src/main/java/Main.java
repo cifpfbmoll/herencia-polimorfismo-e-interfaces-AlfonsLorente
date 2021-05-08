@@ -1,9 +1,7 @@
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
-//TODO: HAY QUE REFACTORIZAR TODO EL MAIN
 public class Main {
     //SCANNER
     public static Scanner scanner = new Scanner(System.in);
@@ -85,6 +83,7 @@ public class Main {
 
     //Crear un bibliotecario y añadirlo en la biblioteca
     public static void crearBibliotecario(Biblioteca biblioteca){
+
         Bibliotecario bibliotecario = new Bibliotecario();
         System.out.print("Nombre: ");
         bibliotecario.setNombre(scanner.nextLine());
@@ -97,8 +96,16 @@ public class Main {
         scanner.nextLine();
         System.out.print("Puesto de trabajo: ");
         bibliotecario.setPuestoTrabajo(scanner.nextLine());
-        System.out.print("NIF: ");
-        bibliotecario.setNif(scanner.nextLine());
+        boolean bool = false;
+        do {
+            try {
+                System.out.print("NIF: ");
+                bibliotecario.setNif(scanner.nextLine());
+                bool = true;
+            } catch (Excepciones e) {
+                System.out.println(e.getMessage());
+            }
+        }while (bool == false);
         System.out.print("Contraseña: ");
         bibliotecario.setContraseña(scanner.nextLine());
         biblioteca.getListaPersonas().add(bibliotecario);
